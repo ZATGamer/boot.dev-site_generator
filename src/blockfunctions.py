@@ -36,14 +36,11 @@ def block_to_block_type(block):
         #Multiline Code blocks must start with 3 backticks and a newline, then end with 3 backticks.
         return(BlockType.CODE)
 
-    if block.startswith(">"):
-        #TODO May need to split the block into lines as i think this forloop will just look at each letter.
+    if block.startswith("> "):
         #Every line in a quote block must start with a "greater-than" character: > followed by the quote text. A space after > is allowed but not required. 
         all_lines = True
         for line in block_lines:
-            if line.startswith(">"):
-                continue
-            else:
+            if not line.startswith("> "):
                 all_lines = False
         if all_lines:
             return(BlockType.QUOTE)
