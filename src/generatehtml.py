@@ -2,8 +2,8 @@ import re
 import os
 
 from blockfunctions import BlockType, block_to_block_type, markdown_to_blocks, extract_title
-from htmlnode import HTMLNode, LeafNode, ParentNode
-from splitfunctions import split_nodes_delimiter, split_nodes_image, split_nodes_link, extract_markdown_images, extract_markdown_links, text_to_textnodes
+from htmlnode import ParentNode
+from splitfunctions import text_to_textnodes
 from textnode import TextNode, TextType, text_node_to_html_node
 
 def markdown_to_html_node(markdown):
