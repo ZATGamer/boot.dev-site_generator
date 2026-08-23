@@ -94,7 +94,7 @@ def text_to_children(text):
         children_nodes.append(text_node_to_html_node(text_node))
     return children_nodes
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     md = ""
     with open(from_path) as markdown:
@@ -111,10 +111,13 @@ def generate_page(from_path, template_path, dest_path):
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", content)
 
+    template = template.replace('href="/', f'href="{basepath}')
+    template = template.replace('src="/', f'src="{basepath}')
+
     with open(dest_path, 'w') as output:
         output.write(template)
 
-def generate_website(content, template, dest):
+def generate_website(content, template, dest, basepath):
     if not os.path.exists(dest):
         os.mkdir(dest)
 
@@ -125,7 +128,7 @@ def generate_website(content, template, dest):
         dest_path = os.path.join(dest, item.replace('.md', '.html'))
         if os.path.isfile(item_path):
             if item.endswith(".md"):
-                generate_page(item_path, template, dest_path)
+                generate_page(item_path, template, dest_path, basepath)
         else:
-            generate_website(item_path, template, dest_path)
+            generate_website(item_path, template, dest_path, basepath)
         

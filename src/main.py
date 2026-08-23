@@ -1,19 +1,24 @@
-import os
+import os, sys
 from shutil import copy, rmtree
 from textnode import TextNode
 from generatehtml import generate_website
 
 dir_path_static = './static'
-dir_path_public = './public'
+dir_path_public = './docs'
 template_file = 'template.html'
 dir_content = './content'
 
 
 
 def main():
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+    else:
+        basepath = "/"
+
     clean_up_dir(dir_path_public)   
     copy_static_to_public(dir_path_static, dir_path_public)
-    generate_website(dir_content, template_file, dir_path_public)
+    generate_website(dir_content, template_file, dir_path_public, basepath)
 
 def copy_static_to_public(sorce_dir_path, dest_dir_path):
     if not os.path.exists(dest_dir_path):
