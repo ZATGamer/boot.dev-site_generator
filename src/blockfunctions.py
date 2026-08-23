@@ -36,11 +36,11 @@ def block_to_block_type(block):
         #Multiline Code blocks must start with 3 backticks and a newline, then end with 3 backticks.
         return(BlockType.CODE)
 
-    if block.startswith("> "):
+    if block.startswith(">"):
         #Every line in a quote block must start with a "greater-than" character: > followed by the quote text. A space after > is allowed but not required. 
         all_lines = True
         for line in block_lines:
-            if not line.startswith("> "):
+            if not line.startswith(">"):
                 all_lines = False
         if all_lines:
             return(BlockType.QUOTE)
@@ -75,3 +75,11 @@ def block_to_block_type(block):
         
     #If none of the above conditions are met, the block is a normal paragraph.
     return(BlockType.PARAGRAPH)
+
+def extract_title(markdown):
+    blocks = markdown_to_blocks(markdown)
+    for block in blocks:
+        if block_to_block_type(block) is BlockType.HEADING:
+            if block.startswith("# "):
+                return block[2:].strip(" ")
+    raise Exception("No Heading 1 Found")
